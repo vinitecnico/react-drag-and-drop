@@ -20,11 +20,6 @@ function App() {
       thumb:
         "https://pm1.narvii.com/7181/524ec8132171a1cdec086c15df2c25001af3f63dr1-634-909v2_hq.jpg",
     },
-    {
-      id: "mooncake",
-      name: "Mooncake",
-      thumb: "https://www.voguehk.com/media/2019/09/HEADER-IMAGE-1280x844.jpg",
-    },
   ];
 
   const finalSpaceCharacters1 = [
@@ -32,6 +27,11 @@ function App() {
       id: "aaa",
       name: "aaa",
       thumb: "https://www.ratespy.com/wp-content/uploads/2020/06/Canada-loses-AAA-rating-mortgage-rates-stable-1-700x467.jpg",
+    },
+    {
+      id: "mooncake",
+      name: "Mooncake",
+      thumb: "https://www.voguehk.com/media/2019/09/HEADER-IMAGE-1280x844.jpg",
     },
   ];
 
@@ -98,13 +98,14 @@ function App() {
                   <Draggable key={id} draggableId={id} index={index}>
                     {(provided) => (
                       <li
+                        className="postit"
                         ref={provided.innerRef}
                         {...provided.draggableProps}
                         {...provided.dragHandleProps}
                       >
-                        <div className="characters-thumb">
+                        {/* <div className="characters-thumb">
                           <img src={thumb} alt={`${name} Thumb`} />
-                        </div>
+                        </div> */}
                         <p>{name}</p>
                       </li>
                     )}
@@ -128,13 +129,14 @@ function App() {
                     <Draggable key={id} draggableId={id} index={index}>
                       {(provided) => (
                         <li
+                        className="postit"
                           ref={provided.innerRef}
                           {...provided.draggableProps}
                           {...provided.dragHandleProps}
                         >
-                          <div className="characters-thumb">
+                          {/* <div className="characters-thumb">
                             <img src={thumb} alt={`${name} Thumb`} />
-                          </div>
+                          </div> */}
                           <p>{name}</p>
                         </li>
                       )}
