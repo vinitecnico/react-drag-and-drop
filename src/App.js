@@ -1,42 +1,11 @@
 import React, { useState } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import dataItem from './mock/items-mock';
 import "./App.css";
 
 function App() {
-  const finalSpaceCharacters = [
-    {
-      id: "gary",
-      name: "Gary Goodspeed",
-      thumb: "https://www.todopapas.com.pt/files/nombres/G/colorearGary.jpg",
-    },
-    {
-      id: "cato",
-      name: "Little Cato",
-      thumb: "https://www.manutan.pt/img/S/GRP/ST/AIG3244575.jpg",
-    },
-    {
-      id: "kvn",
-      name: "KVN",
-      thumb:
-        "https://pm1.narvii.com/7181/524ec8132171a1cdec086c15df2c25001af3f63dr1-634-909v2_hq.jpg",
-    },
-  ];
-
-  const finalSpaceCharacters1 = [
-    {
-      id: "aaa",
-      name: "aaa",
-      thumb: "https://www.ratespy.com/wp-content/uploads/2020/06/Canada-loses-AAA-rating-mortgage-rates-stable-1-700x467.jpg",
-    },
-    {
-      id: "mooncake",
-      name: "Mooncake",
-      thumb: "https://www.voguehk.com/media/2019/09/HEADER-IMAGE-1280x844.jpg",
-    },
-  ];
-
-  const [characters, updateCharacters] = useState(finalSpaceCharacters);
-  const [characters1, updateCharacters1] = useState(finalSpaceCharacters1);
+  const [characters, updateCharacters] = useState(dataItem.finalSpaceCharacters);
+  const [characters1, updateCharacters1] = useState(dataItem.finalSpaceCharacters1);
 
   const getItem = (source, index) => {
     return source === "characters" ? characters[index] : characters1[index];
@@ -93,19 +62,16 @@ function App() {
               {...provided.droppableProps}
               ref={provided.innerRef}
             >
-              {characters.map(({ id, name, thumb }, index) => {
+              {characters.map(({ id, name, color }, index) => {
                 return (
                   <Draggable key={id} draggableId={id} index={index}>
                     {(provided) => (
                       <li
-                        className="postit"
+                        className={`postit ${color}`}
                         ref={provided.innerRef}
                         {...provided.draggableProps}
                         {...provided.dragHandleProps}
                       >
-                        {/* <div className="characters-thumb">
-                          <img src={thumb} alt={`${name} Thumb`} />
-                        </div> */}
                         <p>{name}</p>
                       </li>
                     )}
@@ -124,19 +90,16 @@ function App() {
                 {...provided.droppableProps}
                 ref={provided.innerRef}
               >
-                {characters1.map(({ id, name, thumb }, index) => {
+                {characters1.map(({ id, name, color }, index) => {
                   return (
                     <Draggable key={id} draggableId={id} index={index}>
                       {(provided) => (
                         <li
-                        className="postit"
+                          className={`postit ${color}`}
                           ref={provided.innerRef}
                           {...provided.draggableProps}
                           {...provided.dragHandleProps}
                         >
-                          {/* <div className="characters-thumb">
-                            <img src={thumb} alt={`${name} Thumb`} />
-                          </div> */}
                           <p>{name}</p>
                         </li>
                       )}
