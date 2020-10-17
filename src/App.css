@@ -27,11 +27,9 @@
 .characters {
   list-style: none;
   padding-left: 0;
-  width: 25%;
-  margin: 2%;
   border: dashed 1px #c0c0c0;
-  padding: 2%;
   background-color: #fff;
+  padding: 6%;
 }
 
 .characters li {

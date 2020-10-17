@@ -1,11 +1,31 @@
 import React, { useState } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import dataItem from './mock/items-mock';
+import Container from "@material-ui/core/Container";
+import { makeStyles } from "@material-ui/core/styles";
+import Grid from "@material-ui/core/Grid";
+
+import dataItem from "./mock/items-mock";
 import "./App.css";
 
+const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+  },
+  paper: {
+    padding: theme.spacing(2),
+    textAlign: 'center',
+    color: theme.palette.text.secondary,
+  },
+}));
+
 function App() {
-  const [characters, updateCharacters] = useState(dataItem.finalSpaceCharacters);
-  const [characters1, updateCharacters1] = useState(dataItem.finalSpaceCharacters1);
+  const classes = useStyles();
+  const [characters, updateCharacters] = useState(
+    dataItem.finalSpaceCharacters
+  );
+  const [characters1, updateCharacters1] = useState(
+    dataItem.finalSpaceCharacters1
+  );
 
   const getItem = (source, index) => {
     return source === "characters" ? characters[index] : characters1[index];
@@ -19,7 +39,7 @@ function App() {
       : updateCharacters1(items);
   };
 
-  const handleOnDragEnd = (result, aa) => {
+  const handleOnDragEnd = (result) => {
     if (!result.destination) return;
 
     const source = result.source.droppableId;
@@ -53,65 +73,74 @@ function App() {
   };
 
   return (
-    <div className="App">
-      <DragDropContext onDragEnd={handleOnDragEnd}>
-        <Droppable droppableId="characters">
-          {(provided) => (
-            <ul
-              className="characters"
-              {...provided.droppableProps}
-              ref={provided.innerRef}
-            >
-              {characters.map(({ id, name, color }, index) => {
-                return (
-                  <Draggable key={id} draggableId={id} index={index}>
-                    {(provided) => (
-                      <li
-                        className={`postit ${color}`}
-                        ref={provided.innerRef}
-                        {...provided.draggableProps}
-                        {...provided.dragHandleProps}
-                      >
-                        <p>{name}</p>
-                      </li>
-                    )}
-                  </Draggable>
-                );
-              })}
-              {provided.placeholder}
-            </ul>
-          )}
-        </Droppable>
-        <Droppable droppableId="characters1">
-          {(provided) => (
-            <>
-              <ul
-                className="characters"
-                {...provided.droppableProps}
-                ref={provided.innerRef}
-              >
-                {characters1.map(({ id, name, color }, index) => {
-                  return (
-                    <Draggable key={id} draggableId={id} index={index}>
-                      {(provided) => (
-                        <li
-                          className={`postit ${color}`}
-                          ref={provided.innerRef}
-                          {...provided.draggableProps}
-                          {...provided.dragHandleProps}
-                        >
-                          <p>{name}</p>
-                        </li>
-                      )}
-                    </Draggable>
-                  );
-                })}
-                {provided.placeholder}
-              </ul>
-            </>
-          )}
-        </Droppable>
-      </DragDropContext>
+    <div className={classes.root}>
+      <Container maxWidth="sm">
+        <DragDropContext onDragEnd={handleOnDragEnd}>
+          <Grid container spacing={3} direction="row">
+            <Grid item xs={12} sm={6}>
+              <Droppable droppableId="characters">
+                {(provided) => (
+                  <ul
+                    className="characters"
+                    {...provided.droppableProps}
+                    ref={provided.innerRef}
+                  >
+                    {characters.map(({ id, name, color }, index) => {
+                      return (
+                        <Draggable key={id} draggableId={id} index={index}>
+                          {(provided) => (
+                            <li
+                              className={`postit ${color}`}
+                              ref={provided.innerRef}
+                              {...provided.draggableProps}
+                              {...provided.dragHandleProps}
+                            >
+                              <p>{name}</p>
+                            </li>
+                          )}
+                        </Draggable>
+                      );
+                    })}
+                    {provided.placeholder}
+                  </ul>
+                )}
+              </Droppable>
+            </Grid>
+
+            <Grid item xs={12} sm={6}>
+              <Droppable droppableId="characters1">
+                {(provided) => (
+                  <>
+                    <ul
+                      className="characters"
+                      {...provided.droppableProps}
+                      ref={provided.innerRef}
+                    >
+                      {characters1.map(({ id, name, color }, index) => {
+                        return (
+                          <Draggable key={id} draggableId={id} index={index}>
+                            {(provided) => (
+                              <li
+                                className={`postit ${color}`}
+                                ref={provided.innerRef}
+                                {...provided.draggableProps}
+                                {...provided.dragHandleProps}
+                              >
+                                <p>{name}</p>
+                              </li>
+                            )}
+                          </Draggable>
+                        );
+                      })}
+                      {provided.placeholder}
+                    </ul>
+                  </>
+                )}
+              </Droppable>
+            </Grid>
+          </Grid>
+        </DragDropContext>
+      </Container>
     </div>
   );
 }
