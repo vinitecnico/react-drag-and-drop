@@ -4,6 +4,7 @@ import DroppableItem from "./component/droppable-item/droppable-item";
 import Container from "@material-ui/core/Container";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
+import Icon from "@material-ui/core/Icon";
 
 import dataItem from "./mock/items-mock";
 import "./App.css";
@@ -96,12 +97,36 @@ const App = () => {
     }
   };
 
+  const uuidv4 = () => {
+    return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, (c) =>
+      (
+        c ^
+        (crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (c / 4)))
+      ).toString(16)
+    );
+  };
+
+  const createItem = (source) => {
+    const item = {
+      id: uuidv4(),
+      name: "...",
+      color: "postiti-yellow",
+    };
+
+    source === "characters"
+      ? updateCharacters([...characters, item])
+      : source === "characters1"
+      ? updateCharacters1([...characters1, item])
+      : setBrainstorming([...brainstorming, item]);
+  };
+
   return (
     <div className={classes.root}>
       <Container maxWidth="sm">
         <DragDropContext onDragEnd={handleOnDragEnd}>
           <Grid container spacing={3} direction="row">
             <Grid item xs={12} sm={6}>
+              <Icon onClick={() => createItem("characters")}>add_circle</Icon>
               <DroppableItem
                 droppableId="characters"
                 className="characters"
@@ -110,6 +135,7 @@ const App = () => {
             </Grid>
 
             <Grid item xs={12} sm={6}>
+              <Icon onClick={() => createItem("characters1")}>add_circle</Icon>
               <DroppableItem
                 droppableId="characters1"
                 className="characters"
@@ -118,6 +144,7 @@ const App = () => {
             </Grid>
           </Grid>
           <Grid container spacing={3} direction="row">
+            <Icon onClick={() => createItem("brainstorming")}>add_circle</Icon>
             <Grid item xs={12}>
               <DroppableItem
                 droppableId="brainstorming"
