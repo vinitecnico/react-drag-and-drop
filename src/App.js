@@ -61,13 +61,37 @@ const App = () => {
       : brainstorming[index];
   };
 
+  const deleteItem = (sourced, id) => {
+    debugger;
+    console.log("source, index", sourced, id);
+    let items = [];
+
+    if (sourced === "characters") {
+      items = characters;
+    } else if (sourced === "characters1") {
+      items = characters1;
+    } else {
+      items = brainstorming;
+    }
+
+    console.log(items);
+    items = items.filter((x) => x.id !== id);
+    console.log(items);
+    sourced === "characters"
+      ? updateCharacters(items)
+      : sourced === "characters1"
+      ? updateCharacters1(items)
+      : setBrainstorming(items);
+  };
+
   const removeItem = (source, index) => {
     const items =
       source === "characters"
         ? characters
-        : source === "character1"
+        : source === "characters1"
         ? characters1
         : brainstorming;
+
     items.splice(index, 1);
     source === "characters"
       ? updateCharacters(items)
@@ -146,7 +170,7 @@ const App = () => {
     console.log(source);
     setOpen(true);
     setSource(source);
-    setValue('postiti-yellow')
+    setValue("postiti-yellow");
   };
 
   const handleClose = () => {
@@ -176,6 +200,7 @@ const App = () => {
                 droppableId="characters"
                 className="characters"
                 items={characters}
+                removeItem={deleteItem}
               />
             </Grid>
 
@@ -187,6 +212,7 @@ const App = () => {
                 droppableId="characters1"
                 className="characters"
                 items={characters1}
+                removeItem={deleteItem}
               />
             </Grid>
           </Grid>
@@ -199,6 +225,7 @@ const App = () => {
                 droppableId="brainstorming"
                 className="brainstorming"
                 items={brainstorming}
+                removeItem={deleteItem}
               />
             </Grid>
           </Grid>
@@ -210,9 +237,7 @@ const App = () => {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">
-          {"Create note"}
-        </DialogTitle>
+        <DialogTitle id="alert-dialog-title">{"Create note"}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
             <TextField

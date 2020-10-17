@@ -1,7 +1,8 @@
 import React from "react";
 import { Droppable, Draggable } from "react-beautiful-dnd";
+import DeleteIcon from '@material-ui/icons/Delete';
 
-const DroppableItem = ({droppableId, className, items}) => {
+const DroppableItem = ({ droppableId, className, items, removeItem }) => {
   return (
     <Droppable droppableId={droppableId}>
       {(provided) => (
@@ -20,6 +21,7 @@ const DroppableItem = ({droppableId, className, items}) => {
                     {...provided.draggableProps}
                     {...provided.dragHandleProps}
                   >
+                    <DeleteIcon onClick={() => removeItem(droppableId, id)}/>
                     <p>{name}</p>
                   </li>
                 )}
