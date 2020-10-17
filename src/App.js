@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import { DragDropContext } from "react-beautiful-dnd";
+import DroppableItem from "./component/droppable-item/droppable-item";
 import Container from "@material-ui/core/Container";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
@@ -13,12 +14,12 @@ const useStyles = makeStyles((theme) => ({
   },
   paper: {
     padding: theme.spacing(2),
-    textAlign: 'center',
+    textAlign: "center",
     color: theme.palette.text.secondary,
   },
 }));
 
-function App() {
+const App = () => {
   const classes = useStyles();
   const [characters, updateCharacters] = useState(
     dataItem.finalSpaceCharacters
@@ -78,71 +79,25 @@ function App() {
         <DragDropContext onDragEnd={handleOnDragEnd}>
           <Grid container spacing={3} direction="row">
             <Grid item xs={12} sm={6}>
-              <Droppable droppableId="characters">
-                {(provided) => (
-                  <ul
-                    className="characters"
-                    {...provided.droppableProps}
-                    ref={provided.innerRef}
-                  >
-                    {characters.map(({ id, name, color }, index) => {
-                      return (
-                        <Draggable key={id} draggableId={id} index={index}>
-                          {(provided) => (
-                            <li
-                              className={`postit ${color}`}
-                              ref={provided.innerRef}
-                              {...provided.draggableProps}
-                              {...provided.dragHandleProps}
-                            >
-                              <p>{name}</p>
-                            </li>
-                          )}
-                        </Draggable>
-                      );
-                    })}
-                    {provided.placeholder}
-                  </ul>
-                )}
-              </Droppable>
+              <DroppableItem
+                droppableId="characters"
+                className="characters"
+                items={characters}
+              />
             </Grid>
 
             <Grid item xs={12} sm={6}>
-              <Droppable droppableId="characters1">
-                {(provided) => (
-                  <>
-                    <ul
-                      className="characters"
-                      {...provided.droppableProps}
-                      ref={provided.innerRef}
-                    >
-                      {characters1.map(({ id, name, color }, index) => {
-                        return (
-                          <Draggable key={id} draggableId={id} index={index}>
-                            {(provided) => (
-                              <li
-                                className={`postit ${color}`}
-                                ref={provided.innerRef}
-                                {...provided.draggableProps}
-                                {...provided.dragHandleProps}
-                              >
-                                <p>{name}</p>
-                              </li>
-                            )}
-                          </Draggable>
-                        );
-                      })}
-                      {provided.placeholder}
-                    </ul>
-                  </>
-                )}
-              </Droppable>
+              <DroppableItem
+                droppableId="characters1"
+                className="characters"
+                items={characters1}
+              />
             </Grid>
           </Grid>
         </DragDropContext>
       </Container>
     </div>
   );
-}
+};
 
 export default App;
