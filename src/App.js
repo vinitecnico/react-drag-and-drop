@@ -28,16 +28,29 @@ const App = () => {
     dataItem.finalSpaceCharacters1
   );
 
+  const [brainstorming, setBrainstorming] = useState([]);
+
   const getItem = (source, index) => {
-    return source === "characters" ? characters[index] : characters1[index];
+    return source === "characters"
+      ? characters[index]
+      : source === "characters1"
+      ? characters1[index]
+      : brainstorming[index];
   };
 
   const removeItem = (source, index) => {
-    const items = source === "characters" ? characters : characters1;
+    const items =
+      source === "characters"
+        ? characters
+        : source === "character1"
+        ? characters1
+        : brainstorming;
     items.splice(index, 1);
     source === "characters"
       ? updateCharacters(items)
-      : updateCharacters1(items);
+      : source === "characters1"
+      ? updateCharacters1(items)
+      : setBrainstorming(items);
   };
 
   const handleOnDragEnd = (result) => {
@@ -47,14 +60,20 @@ const App = () => {
     const destination = result.destination.droppableId;
     if (result.destination.droppableId === result.source.droppableId) {
       const items = Array.from(
-        source === "characters" ? characters : characters1
+        source === "characters"
+          ? characters
+          : source === "characters1"
+          ? characters1
+          : brainstorming
       );
       const [reorderedItem] = items.splice(result.source.index, 1);
       items.splice(result.destination.index, 0, reorderedItem);
 
       source === "characters"
         ? updateCharacters(items)
-        : updateCharacters1(items);
+        : source === "characters1"
+        ? updateCharacters1(items)
+        : setBrainstorming(items);
     } else {
       const item = getItem(source, result.source.index);
       removeItem(source, result.source.index);
@@ -62,14 +81,18 @@ const App = () => {
       const items =
         destination === "characters"
           ? [...characters, item]
-          : [...characters1, item];
+          : destination === "characters1"
+          ? [...characters1, item]
+          : [...brainstorming, item];
 
       const [reorderedItem] = items.splice(items.length - 1, 1);
       items.splice(result.destination.index, 0, reorderedItem);
 
       destination === "characters"
         ? updateCharacters(items)
-        : updateCharacters1(items);
+        : destination === "characters1"
+        ? updateCharacters1(items)
+        : setBrainstorming(items);
     }
   };
 
@@ -91,6 +114,15 @@ const App = () => {
                 droppableId="characters1"
                 className="characters"
                 items={characters1}
+              />
+            </Grid>
+          </Grid>
+          <Grid container spacing={3} direction="row">
+            <Grid item xs={12}>
+              <DroppableItem
+                droppableId="brainstorming"
+                className="brainstorming"
+                items={brainstorming}
               />
             </Grid>
           </Grid>

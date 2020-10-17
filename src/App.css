@@ -50,23 +50,34 @@
   font-family:'Reenie Beanie';
 }
 
-/* .characters-thumb {
-  overflow: hidden;
-  flex-shrink: 0;
-  width: 2em;
-  height: 2em;
-  background-color: #e8e8e8;
-  padding: .5em;
-  margin-right: .5em;
+.brainstorming {
+  list-style: none;
+  padding-left: 0;
+  border: dashed 1px #c0c0c0;
+  background-color: #fff;
+  padding: 6%;
+  display: flex;
 }
 
-.characters-thumb img {
-  display: block;
-  width: 100%;
-  height: auto;
-} */
+.brainstorming li {
+  display:inline;
+  align-items: center;
+  /* border: solid 2px #d0d0d0; */
+  border-radius: .2em;
+  padding: .5em .8em .5em .5em;
+  margin-bottom: 1em;
+  width: 25%;
+  margin: 3%;
+}
 
-
+.brainstorming p {
+  max-width: none;
+  font-weight: bold;
+  margin: 0;
+  margin-left: auto;
+  margin-right: auto;
+  font-family:'Reenie Beanie';
+}
 
  .postit {
     line-height: 1;
