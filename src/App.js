@@ -6,6 +6,19 @@ import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Icon from "@material-ui/core/Icon";
 
+import Button from "@material-ui/core/Button";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import TextField from "@material-ui/core/TextField";
+
+import Radio from "@material-ui/core/Radio";
+import RadioGroup from "@material-ui/core/RadioGroup";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import FormLabel from "@material-ui/core/FormLabel";
+
 import dataItem from "./mock/items-mock";
 import "./App.css";
 
@@ -22,6 +35,9 @@ const useStyles = makeStyles((theme) => ({
 
 const App = () => {
   const classes = useStyles();
+  const [open, setOpen] = useState(false);
+  const [source, setSource] = useState();
+  const [description, setDescription] = useState();
   const [characters, updateCharacters] = useState(
     dataItem.finalSpaceCharacters
   );
@@ -30,6 +46,12 @@ const App = () => {
   );
 
   const [brainstorming, setBrainstorming] = useState([]);
+
+  const [value, setValue] = React.useState("postiti-yellow");
+
+  const handleRadioChange = (event) => {
+    setValue(event.target.value);
+  };
 
   const getItem = (source, index) => {
     return source === "characters"
@@ -106,11 +128,11 @@ const App = () => {
     );
   };
 
-  const createItem = (source) => {
+  const createItem = (description, color) => {
     const item = {
       id: uuidv4(),
-      name: "...",
-      color: "postiti-yellow",
+      name: description,
+      color: color,
     };
 
     source === "characters"
@@ -120,13 +142,36 @@ const App = () => {
       : setBrainstorming([...brainstorming, item]);
   };
 
+  const handleClickOpen = (source) => {
+    console.log(source);
+    setOpen(true);
+    setSource(source);
+    setValue('postiti-yellow')
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleChange = (e) => {
+    setDescription(e.target.value);
+    console.log("handle change called");
+  };
+
+  const handleSubmit = () => {
+    createItem(description, value);
+    handleClose();
+  };
+
   return (
     <div className={classes.root}>
       <Container maxWidth="sm">
         <DragDropContext onDragEnd={handleOnDragEnd}>
           <Grid container spacing={3} direction="row">
             <Grid item xs={12} sm={6}>
-              <Icon onClick={() => createItem("characters")}>add_circle</Icon>
+              <Icon onClick={() => handleClickOpen("characters")}>
+                add_circle
+              </Icon>
               <DroppableItem
                 droppableId="characters"
                 className="characters"
@@ -135,7 +180,9 @@ const App = () => {
             </Grid>
 
             <Grid item xs={12} sm={6}>
-              <Icon onClick={() => createItem("characters1")}>add_circle</Icon>
+              <Icon onClick={() => handleClickOpen("characters1")}>
+                add_circle
+              </Icon>
               <DroppableItem
                 droppableId="characters1"
                 className="characters"
@@ -144,7 +191,9 @@ const App = () => {
             </Grid>
           </Grid>
           <Grid container spacing={3} direction="row">
-            <Icon onClick={() => createItem("brainstorming")}>add_circle</Icon>
+            <Icon onClick={() => handleClickOpen("brainstorming")}>
+              add_circle
+            </Icon>
             <Grid item xs={12}>
               <DroppableItem
                 droppableId="brainstorming"
@@ -155,6 +204,69 @@ const App = () => {
           </Grid>
         </DragDropContext>
       </Container>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {"Create note"}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            <TextField
+              id="outlined-basic"
+              label="Description"
+              variant="outlined"
+              onChange={(e) => {
+                handleChange(e);
+              }}
+            />
+            <FormLabel component="legend">color</FormLabel>
+            <RadioGroup
+              aria-label="gender"
+              name="color"
+              value={value}
+              onChange={handleRadioChange}
+            >
+              <FormControlLabel
+                value="postiti-yellow"
+                control={<Radio />}
+                label="yellow"
+              />
+              <FormControlLabel
+                value="postiti-blue"
+                control={<Radio />}
+                label="blue"
+              />
+              <FormControlLabel
+                value="postiti-green"
+                control={<Radio />}
+                label="green"
+              />
+              <FormControlLabel
+                value="postiti-orange"
+                control={<Radio />}
+                label="orange"
+              />
+              <FormControlLabel
+                value="postiti-purple"
+                control={<Radio />}
+                label="purple"
+              />
+            </RadioGroup>
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color="primary">
+            cancel
+          </Button>
+          <Button onClick={handleSubmit} color="primary" autoFocus>
+            save
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 };
